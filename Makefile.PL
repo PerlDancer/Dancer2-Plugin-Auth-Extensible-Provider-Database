@@ -15,6 +15,7 @@ WriteMakefile(
         'Path::Tiny'                              => '0.016',
         'Test::More'                              => 0,
         'Dancer2::Plugin::Auth::Extensible::Test' => 0,
+        'DBD::SQLite'                             => 0,
     },
     PREREQ_PM => {
         'Carp'                              => 0,
