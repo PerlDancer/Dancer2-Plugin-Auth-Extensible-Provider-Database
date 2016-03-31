@@ -1,116 +1,17 @@
-Revision history for Dancer2-Plugin-Auth-Extensible
+Revision history for Dancer2-Plugin-Auth-Extensible-Provider-Database
 
-0.502 Thu 11 Feb 16:06:29 CET 2016
-
-    [BUG FIXES]
-
-    * Use getpwnam/getgrent in Unix provider instead of Unix::Passwd::File.
-      In addition to the obvious benefit of removing a dependency this also
-      solves a problem with Unix::Passwd::File where it likes to lock the
-      passwd file but that will fail if the user does not have permissions
-      which is normal for a web app (Peter Mottram).
-      Thanks to Jason Lewis for the heads up about this issue.
-
-0.501 Wed Jan 20 12:07:17 2016 CET
-
-    [TESTS]
-
-    * Always output log messages on get/post errors (Peter Mottram).
-
-0.500 Tue Jan 19 15:08:37 2016 CET
-
-    [TESTS]
-
-    * Add infrastructure for provider tests and various other
-      improvements for testing (Peter Mottram).
-
-0.402 Tue Dec  8 14:44:19 2015 CET
-
-    [BUG FIXES]
-
-    * Adjust regexp for routes to be stricter in order to prevent
-      incorrect matches causing redirect loops (Evan Brown, GH #32).
-
-0.401 Wed Jun 10 19:23:30 2015 CEST
+0.600 
 
 	[ENHANCEMENTS]
 
-	* Allow custom random password generator to be specified
-	  (Andrew Beverly, GH #23).
+    * Add new set_user_details and set_user_password methods.
 
-0.400 Thu May 21 08:36:36 2015 CEST
+    [MISC]
 
-    [ENHANCEMENTS]
+    * Split out Dancer2::Plugin::Auth::Extensible::Provider::Database from
+      the Dancer2::Plugin::Auth::Extensible distribution.
+    * Provider is now a Moo class and has been rehacked to be compatible
+      with Plugin2. This means thus provider is not compatible with Dancer2
+      releases <= v0.166001.
 
-    * Add logged_in_user_password_expired keyword (Andrew Beverly, GH #26).
-    * Add functionality to record the last successful login (Andrew Beverly, GH #25).
-    * Cache user details within each request (Andrew Beverly, GH #24).
-    * Create and edit users, and manage user passwords (Andrew Beverly, GH #10).
-
-    [DOCUMENTATION]
-
-    * Add documentation on users method for the example provider (Stefan Hornburg).
-    * Add documentation for methods of the base provider class (Stefan Hornburg).
-    * Add documentation for auth_provider method (Stefan Hornburg).
-    * Fix a few typos (Evan Brown, GH #20).
-
-    [TESTS]
-
-    * Add POD coverage test (Stefan Hornburg).
-
-0.306 Thu Mar 26 18:41:53 2015 CET
-
-    [BUG FIXES]
-
-    * Fix crash on /login when already logged in (Gabor Szabo, Stefan Hornburg, GH #18).
-
-0.305 Tue Mar 17 09:48:43 2015 CET
-
-    [ENHANCEMENTS]
-
-    * Include the dsl object in the provider constructor (Henk van Oers, GH #13).
-
-    [BUG FIXES]
-
-    * Fix no_default_pages and no_login_handler options (Andrew Beverly, GH #17).
-    * Add missing "Permission Denied" route (Stefan Hornburg, GH #15).
-    * Use Dancer2 in the example and test the example (Gabor Szabo, GH #16).
-    * Remove Mock::Quick from prerequisites (Henk van Oers, GH #8).
-
-    [DOCUMENTATION]
-
-    * Include the name of the command line tool in the pod (Gabor Szabo, GH #11).
-
-0.304 Fri Feb 20 09:12:18 2015 CET
-
-    [ENHANCEMENTS]
-
-    * Add support for DBI provider (Andrew Beverley, GH #7).
-    * Add warning if no realms are configured (Andrew Beverley, GH #6).
-    * Add simple script to generate crypted passwords (David Precious).
-
-    [DOCUMENTATION]
-
-    * Fix module name in POD of Database provider (Vince Willems, GH #5).
-    * Fix mix-up of login_page and login_url (David Precious).
-
-0.303 Tue Oct 28 09:13:46 2014 CET
-
-    [BUG FIXES]
-
-    * Add version to Dancer2 prerequisite (GH #2, Stefan Hornburg).
-      Prevents test failure in case psgi_app method isn't present.
-
-    [TESTS]
-
-    * Suppress core and debug logging for tests.
-
-0.302 Sun Oct 26 17:09:57 2014 CET
-
-    [BUG FIXES]
-
-    * Fix MANIFEST (Stefan Hornburg).
-
-0.301 Sat Oct 25 21:26:39 2014 CEST
-
-    Initial port from Dancer1 (Stefan Hornburg).
+    For earlier changes please see Dancer2::Plugin::Auth::Extensible's Changes.
