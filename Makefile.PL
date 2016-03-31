@@ -3,45 +3,40 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                => 'Dancer2::Plugin::Auth::Extensible',
-    AUTHOR              => q{David Precious <davidp@preshweb.co.uk>},
-    VERSION_FROM        => 'lib/Dancer2/Plugin/Auth/Extensible.pm',
-    ABSTRACT_FROM       => 'lib/Dancer2/Plugin/Auth/Extensible.pm',
-    ($ExtUtils::MakeMaker::VERSION >= 6.48
-      ? ('LICENSE'=> 'perl')
-      : ()),
-    PL_FILES            => {},
+    NAME          => 'Dancer2::Plugin::Auth::Extensible::Provider::Database',
+    AUTHOR        => q{David Precious <davidp@preshweb.co.uk>},
+    VERSION_FROM  => 'lib/Dancer2/Plugin/Auth/Extensible/Provider/Database.pm',
+    ABSTRACT_FROM => 'lib/Dancer2/Plugin/Auth/Extensible/Provider/Database.pm',
+    ( $ExtUtils::MakeMaker::VERSION >= 6.48
+        ? ( 'LICENSE' => 'perl' )
+        : () ),
+    PL_FILES       => {},
     BUILD_REQUIRES => {
-        'HTTP::Request::Common' => 0,
-        'Path::Tiny' => '0.016',
-        'Plack::Test' => 0,
-        'Test::Deep' => 0,
-        'Test::Exception' => 0,
-        'Test::More' => 0,
+        'Path::Tiny'                              => '0.016',
+        'Test::More'                              => 0,
+        'Dancer2::Plugin::Auth::Extensible::Test' => 0,
     },
     PREREQ_PM => {
-        'Carp'              => 0,
-        'Dancer2'           => 0.15,
-        'Dancer2::Core::Types' => 0,
-        'Dancer2::Plugin'   => 0,
-        'Module::Runtime'   => 0,
-        'Crypt::SaltedHash' => 0,
-        'Moo'               => '2.000000',
-        'Moo::Role'         => 0,
-        'namespace::clean'  => 0,
-        'YAML'              => 0, # for config files and tests
-        'Session::Token'    => 0,
-        'Try::Tiny'         => 0,
+        'Carp'                              => 0,
+        'Dancer2'                           => '0.166002',
+        'Dancer2::Plugin::Auth::Extensible' => '0.600',
+        'Dancer2::Plugin::Database'         => '2.16',
+        'Moo'                               => '2.000000',
+        'namespace::clean'                  => 0,
+        'YAML' => 0,    # for config files and tests
     },
-    EXE_FILES => [ 'bin/generate-crypted-password' ],
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'Dancer2-Plugin-Auth-Extensible-*' },
+    EXE_FILES => [],
+    dist      => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+    clean => { FILES => 'Dancer2-Plugin-Auth-Extensible-Provider-Database-*' },
     META_MERGE => {
         resources => {
-            repository => 'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible',
-            bugtracker => 'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible/issues',
-            homepage   => 'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible/',
-            IRC        => 'irc://irc.perl.org/#dancer',
+            repository =>
+'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible-Provider-Database',
+            bugtracker =>
+'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible-Provider-Database/issues',
+            homepage =>
+'https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible-Provider-Database/',
+            IRC => 'irc://irc.perl.org/#dancer',
         },
     },
 
