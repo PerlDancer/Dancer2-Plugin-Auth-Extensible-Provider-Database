@@ -483,4 +483,65 @@ sub set_user_password {
     $self->set_user_details( $username, %update );
 };
 
+=head1 AUTHOR
+
+David Precious, C<< <davidp at preshweb.co.uk> >>
+
+Dancer2 port of Dancer::Plugin::Auth::Extensible by:
+
+Stefan Hornburg (Racke), C<< <racke at linuxia.de> >>
+
+Conversion to Dancer2's new plugin system in 2016 by:
+
+Peter Mottram (SysPete), C<< <peter at sysnix.com> >>
+
+=head1 BUGS / FEATURE REQUESTS
+
+This is an early version; there may still be bugs present or features missing.
+
+This is developed on GitHub - please feel free to raise issues or pull requests
+against the repo at:
+L<https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible-Provider-Database>
+
+=head1 ACKNOWLEDGEMENTS
+
+From L<Dancer2::Plugin::Auth::Extensible>:
+
+Valuable feedback on the early design of this module came from many people,
+including Matt S Trout (mst), David Golden (xdg), Damien Krotkine (dams),
+Daniel Perrett, and others.
+
+Configurable login/logout URLs added by Rene (hertell)
+
+Regex support for require_role by chenryn
+
+Support for user_roles looking in other realms by Colin Ewen (casao)
+
+LDAP provider added by Mark Meyer (ofosos)
+
+Documentation fix by Vince Willems.
+
+Henk van Oers (GH #8, #13).
+
+Andrew Beverly (GH #6, #7, #10, #17, #22, #24, #25, #26).
+This includes support for creating and editing users and manage user passwords.
+
+Gabor Szabo (GH #11, #16, #18).
+
+Evan Brown (GH #20, #32).
+
+Jason Lewis (Unix provider problem).
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2012-16 David Precious.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
+
+=cut
+
 1;
