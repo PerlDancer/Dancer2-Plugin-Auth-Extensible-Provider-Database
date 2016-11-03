@@ -58,6 +58,10 @@ details, but it could be as simple as, e.g.:
         Database:
             driver: 'SQLite'
             database: 'test.sqlite'
+            on_connect_do: ['PRAGMA foreign_keys = ON']
+            dbi_params:
+                PrintError: 0
+                RaiseError: 1
 
 
 A full example showing all options:
