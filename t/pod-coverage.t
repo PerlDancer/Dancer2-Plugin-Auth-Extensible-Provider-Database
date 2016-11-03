@@ -19,19 +19,5 @@ eval "use Pod::Coverage $min_pc";
 plan skip_all => "Pod::Coverage $min_pc required for testing POD coverage"
     if $@;
 
-#all_pod_coverage_ok({ also_private => [qw/BUILDARGS/] });
-pod_coverage_ok(
-    "Dancer2::Plugin::Auth::Extensible",
-    {
-        also_private => [
-            qw/
-              BUILDARGS BUILD ClassHooks PluginKeyword dancer_app
-              execute_plugin_hook hook keywords on_plugin_import plugin_args
-              plugin_setting realm_providers register register_hook
-              register_plugin request var
-              /
-        ]
-    }
-);
-pod_coverage_ok("Dancer2::Plugin::Auth::Extensible::Test");
+all_pod_coverage_ok({ also_private => [qw/BUILDARGS/] });
 done_testing;
