@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Dancer2::Plugin::Auth::Extensible::Test;
+use Dancer2::Plugin::Auth::Extensible::Test 0.620;
 
 BEGIN {
     $ENV{DANCER_CONFDIR}     = 't/lib';
