@@ -3,6 +3,7 @@ t/00-load.t
 t/plugin-provider-database.t
 t/database/config1.sql
 t/database/config2.sql
+t/database/config3.sql
 t/database/testapp.ddl
 t/lib/environments/provider-database.yml
 t/manifest.t

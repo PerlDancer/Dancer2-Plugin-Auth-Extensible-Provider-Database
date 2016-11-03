@@ -5,7 +5,7 @@ use Moo;
 with "Dancer2::Plugin::Auth::Extensible::Role::Provider";
 use namespace::clean;
 
-our $VERSION = '0.600';
+our $VERSION = '0.620';
 
 =head1 NAME 
 
@@ -322,6 +322,8 @@ has user_roles_role_id_column => (
 
 sub authenticate_user {
     my ($self, $username, $password) = @_;
+    croak "Both of username and password must be defined"
+      unless defined $username && defined $password;
 
     # Look up the user:
     my $user = $self->get_user_details($username);
@@ -351,9 +353,10 @@ sub create_user {
 
     # password column might not be nullable so set to empty since we fail
     # auth attempts for empty passwords anyway
-    $self->database->quick_insert( $self->users_table,
+    my $ret = $self->database->quick_insert( $self->users_table,
         { $self->users_username_column => $username, password => '', %options }
     );
+    return $ret ? $self->get_user_details($username) : undef;
 }
 
 =head2 get_user_details $username
@@ -364,7 +367,8 @@ sub create_user {
 # fetched and all columns returned as a hashref.
 sub get_user_details {
     my ($self, $username) = @_;
-    return unless defined $username;
+    croak "username must be defined"
+      unless defined $username;
 
     # Get our database handle and find out the table and column names:
     my $database = $self->database;
@@ -468,8 +472,9 @@ sub set_user_details {
 
     my $user = $self->get_user_details($username) or return;
 
-    $self->database->quick_update( $self->users_table,
+    my $ret = $self->database->quick_update( $self->users_table,
         { $self->users_username_column => $username }, \%update );
+    return $ret ? $self->get_user_details($username) : undef;
 }
 
 =head2 set_user_password
