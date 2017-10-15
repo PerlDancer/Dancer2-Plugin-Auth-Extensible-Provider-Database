@@ -492,6 +492,128 @@ sub set_user_password {
     $self->set_user_details( $username, %update );
 };
 
+=head1 COOKBOOK
+
+=head2 Handle locked or disabled user accounts
+
+I<(contributed by PerlDuck, Borodin and simbabque
+L<via Stack Overflow|https://stackoverflow.com/questions/46746864>)>
+
+It's a good practice to not delete certain data, like user accounts. But what
+do you do when you want to get rid of a user? Maybe an employee left or was
+temporary suspended, or a user did not pay their subscription fee. In those cases you
+would want the user data to stay around, but they should not be able to log in
+any more.
+
+Let's say there is a column C<disabled> in an already existing user table.
+It might hold a timestamp for when the user was disabled, and be C<NULL> if the
+user is active. By default, L<Dancer2::Plugin::Auth::Extensible> will give you this
+information as part of the user data, but to check if the user is allowed to proceed
+would happen after the password has been checked and they have already been logged
+in.
+
+The following sections will describe two different ways of implementing this. The
+first one is easier to implement, but only allows read operations on the user
+table, while the second one requires a little more effort, but will allow almost
+all operations to work. If you need even more flexibility you will have to subclass
+and add a bit more logic.
+
+=head3 ... without changing any code
+
+An easy way to achieve this is by adding a new view to your database that only
+shows active users. Let's look at the following example database.
+
+    -- user table
+    CREATE TABLE users (
+        id       INTEGER     PRIMARY KEY AUTOINCREMENT,
+        username VARCHAR(32) NOT NULL UNIQUE,
+        password VARCHAR(40) NOT NULL,
+        disabled TIMESTAMP   NULL
+    );
+    
+    -- active user view
+    CREATE VIEW active_users (id, username, password) AS
+        SELECT id, username, password FROM users WHERE disabled IS NULL;
+    
+    -- some data
+    INSERT INTO users ( username, password, disabled )
+    VALUES  ( 'Alice', 'test', null),
+            ( 'Bob', 'test', '2017-10-01 10:10:10');
+
+Now all you need to do is change the L</users_table> setting to point
+to C<active_users> instead of C<users>.
+
+    # config.yml
+    plugins:
+        Auth::Extensible:
+            realms:
+                users:
+                    provider: 'Database'
+                    users_table: 'active_users'
+
+That's it. Your application will now only let active users log in, because it
+has no way of knowing about the others. Only I<Alice> will be able to log in,
+but I<Bob> has been disabled and the application will not allow him to log in.
+
+But be aware that this comes with a few drawbacks. If you want to use
+L<Dancer2::Plugin::Auth::Extensible> to also update user information, this is
+now no longer possible because in most database engines you cannot write data
+into a view.
+
+=head3 ... by creating a subclass of this database provider
+
+The alternative is to subclass this provider to add a little bit of logic.
+You can add code to exclude users directly when the user data is fetched, even
+before L<Dancer2::Plugin::Auth::Extensible> verifies the password. This way,
+inactive users can easily be discarded.
+
+The following code is an example implementation specifically for the user table
+outlined in the alternative solution above.
+
+    package Provider::Database::ActiveOnly;
+    
+    use Moo;
+    extends 'Dancer2::Plugin::Auth::Extensible::Provider::Database';
+    
+    around 'get_user_details' => sub {
+        my $orig = shift;
+        my $self = shift;
+    
+        # do nothing if we there was no user
+        my $user = $self->$orig(@_) or return;
+    
+        # do nothing if the user is disabled
+        return if $user->{disabled};
+    
+        return $user;
+    };
+    
+    1;
+
+The code uses an L<C<around> modifier from Moo|Moo/around> to influece
+the L<get_user_details> method, so users that are disabled are never
+found.
+
+To enable this new provider, you need to change the C<provider> setting
+in your configuration.
+
+    # config.yml
+    plugins:
+        Auth::Extensible:
+            realms:
+                users:
+                    provider: 'Provider::Database::ActiveOnly'
+                    users_table: 'users'  # this is the default
+
+With this custom subclass your application will be able to perform write
+operations on active users, including making them inactive. However, inactive
+users will be invisible to L<Dancer2::Plugin::Auth::Extensible>, so you
+cannot use this to turn inactive users back on.
+
+If you want that functionality, you will have to add a bit more logic to
+your subclass. A possible approach could be to replace the L</authenticate_user>
+method.
+    
 =head1 AUTHOR
 
 David Precious, C<< <davidp at preshweb.co.uk> >>
