@@ -1,5 +1,8 @@
 Revision history for Dancer2-Plugin-Auth-Extensible-Provider-Database
 
+{{$NEXT}}
+    * Add cookbook entry for disabled users. (GH#6, simbabque)
+
 0.620 Thu  3 Nov 17:22:41 CET 2016
 
     * Update to new requirements of plugin version 0.620
