@@ -590,7 +590,7 @@ outlined in the alternative solution above.
     
     1;
 
-The code uses an L<C<around> modifier from Moo|Moo/around> to influece
+The code uses an L<C<around> modifier from Moo|Moo/around> to influence
 the L<get_user_details> method, so users that are disabled are never
 found.
 
