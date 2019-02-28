@@ -71,7 +71,7 @@ A full example showing all options:
             realms:
                 users:
                     provider: 'Database'
-                    # optionally set DB connection name to use (see named 
+                    # optionally set DB connection name to use (see named
                     # connections in Dancer2::Plugin::Database docs)
                     db_connection_name: 'foo'
 
@@ -530,11 +530,11 @@ shows active users. Let's look at the following example database.
         password VARCHAR(40) NOT NULL,
         disabled TIMESTAMP   NULL
     );
-    
+
     -- active user view
     CREATE VIEW active_users (id, username, password) AS
         SELECT id, username, password FROM users WHERE disabled IS NULL;
-    
+
     -- some data
     INSERT INTO users ( username, password, disabled )
     VALUES  ( 'Alice', 'test', null),
@@ -571,23 +571,23 @@ The following code is an example implementation specifically for the user table
 outlined in the alternative solution above.
 
     package Provider::Database::ActiveOnly;
-    
+
     use Moo;
     extends 'Dancer2::Plugin::Auth::Extensible::Provider::Database';
-    
+
     around 'get_user_details' => sub {
         my $orig = shift;
         my $self = shift;
-    
+
         # do nothing if we there was no user
         my $user = $self->$orig(@_) or return;
-    
+
         # do nothing if the user is disabled
         return if $user->{disabled};
-    
+
         return $user;
     };
-    
+
     1;
 
 The code uses an L<C<around> modifier from Moo|Moo/around> to influence
@@ -613,7 +613,7 @@ cannot use this to turn inactive users back on.
 If you want that functionality, you will have to add a bit more logic to
 your subclass. A possible approach could be to replace the L</authenticate_user>
 method.
-    
+
 =head1 AUTHOR
 
 David Precious, C<< <davidp at preshweb.co.uk> >>
