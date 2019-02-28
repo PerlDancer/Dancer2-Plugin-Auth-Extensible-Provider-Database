@@ -661,11 +661,14 @@ Gabor Szabo (GH #11, #16, #18).
 
 Evan Brown (GH #20, #32).
 
-Jason Lewis (Unix provider problem).
+Jason Lewis (Unix provider problem, typo fix).
+
+Yanick Champoux (typo fix).
 
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2012-16 David Precious.
+Copyright 2017-19 Stefan Hornburg (Racke).
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
